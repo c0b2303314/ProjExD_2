@@ -43,23 +43,19 @@ def game_over(screen):
     # ブラックアウトのための半透明Surface
     blackout = pg.Surface((WIDTH, HEIGHT))  # 画面全体のサイズでSurface作成
     blackout.fill((0, 0, 0))  # 黒で塗りつぶす
-    
-    # 画面を5段階で暗くしていく
-    for alpha in range(0, 256, 51):  # 透明度を徐々に上げる (0, 51, 102, 153, 204, 255)
-        # 画面を黒く塗りつぶす前にこうかとんとテキストを描画
-        screen.fill((0, 0, 0))  # 画面全体を黒で塗りつぶす
-        screen.blit(crying_kk_img, left_pos)  # 左側のこうかとん画像
-        screen.blit(crying_kk_img, right_pos)  # 右側のこうかとん画像
-        screen.blit(text, (WIDTH//2 - 150, HEIGHT//2 - 40))
-        
-        # ブラックアウトのエフェクト
-        blackout.set_alpha(alpha)  # 透明度を設定
-        screen.blit(blackout, (0, 0))  # 画面に半透明の黒を描画
-        
-        pg.display.update()  # 画面を更新
-        time.sleep(0.5)  # 少しずつ暗くなる演出
+    blackout.set_alpha(128)  # 透明度を設定（0=完全透明、255=完全不透明）
 
-    # 最後に5秒間完全な黒背景で停止
+    # 画面を黒く塗りつぶす前にこうかとんとテキストを描画
+    screen.blit(crying_kk_img, left_pos)  # 左側のこうかとん画像
+    screen.blit(crying_kk_img, right_pos)  # 右側のこうかとん画像
+    screen.blit(text, (WIDTH//2 - 150, HEIGHT//2 - 40))
+    
+    # 半透明の黒い四角を画面に描画（ブラックアウト）
+    screen.blit(blackout, (0, 0))  # 半透明の黒を画面全体に描画
+    
+    pg.display.update()  # 画面を更新
+    
+    # 5秒待機
     time.sleep(5)
 
 def main():
@@ -72,6 +68,7 @@ def main():
     bb_img = pg.Surface((20,20))  # 空のSurface
     bb_img.set_colorkey((0,0,0))
     
+
 
     pg.draw.circle(bb_img,(255,0,0),(10,10,),10)
     bb_rct = bb_img.get_rect()  # 爆弾の抽出
@@ -117,6 +114,7 @@ def main():
             vy *= -1
         screen.blit(bb_img,bb_rct)
 
+        
         pg.display.update()
         tmr += 1
         clock.tick(50)

@@ -28,6 +28,10 @@ def check_bound(obj_rct:pg.Rect):
     return yoko,tate
 
 
+
+
+
+
 def game_over(screen):
     # フォント設定
     font = pg.font.Font(None, 80)
